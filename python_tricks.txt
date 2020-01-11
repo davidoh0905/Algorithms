@@ -1,0 +1,3 @@
+
+# POP if there is something in stack. otherwise return "#"
+top_element = stack.pop() if stack else '#'
