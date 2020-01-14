@@ -56,20 +56,31 @@ print(Solution().maxProfit([7, 20, 3, 6, 1, 2, 1, 1]))
 ## Alex 1 : First of all, if the algorithm is given, I should congnitively approach it and solve it by using brute force and then try to develop the algorithm with greater efficiency.
 
 # David
-
 class Solution(object):
-    def maxProfit(self, prices):
-        if len(prices) <= 1:
-            return 0
+    def productExceptSelf(self, nums):
+        ## In order to get productExceptSelf at index i,
+        ## we need to get product of every element of nums before index i
+        ## and multiply that with product of every element of nums after index i
+        ## we will create auxiliary array as L and R
+        L, R, answer = [1] * len(nums), [1] * len(nums), [1] * len(nums)
 
-        current = prices[0]
-        leastSoFar = float("inf")
-        maxSoFar = 0
-        for i in range(len(prices)):
-            current = prices[i]
-            maxSoFar = max(maxSoFar, current - leastSoFar)
-            leastSoFar = min(leastSoFar, current)
-        return maxSoFar
+        for i in range(1, len(nums)):
+            # left to right
+            # ith element of L is product of L[i-1] (product of every element until i-2 th element from left) and nums[i-1]
+            L[i] = L[i - 1] * nums[i - 1]
+
+        for i in range(len(nums) - 2, -1, -1):
+            # right to left
+            # ith element of R is product of R[i+1] (product of every element until i+2 th element from right) and nums[i+1]
+            R[i] = R[i + 1] * nums[i + 1]
+
+        for i in range(len(nums)):
+            answer[i] = L[i] * R[i]
+
+        return answer
+
+    ## This leaves us room for improvement in that we can just use one auxiliary data structure.
+    ## 
 
 
 
